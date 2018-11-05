@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jzwen.passwordhelper.dao.UserDao" >
+
+    <resultMap id="BaseResultMap" type="com.jzwen.passwordhelper.pojo.User" >
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+      userName , password ,phoneNum
+    </sql>
+    <insert id="insertUser">
+        insert into user(userName , phoneNum , password) value(#{userName} , #{phoneNum} ,#{password})
+    </insert>
+
+    <select id="getUser" parameterType="com.jzwen.passwordhelper.pojo.User" resultType="com.jzwen.passwordhelper.pojo.User" >
+        select userName from user where phoneNum = #{phoneNum} and password = #{password}
+    </select>
+
+    <!--获取所有用户 只显示用户名和密码-->
+    <select id="getAllUser" parameterType="com.jzwen.passwordhelper.pojo.User" resultType="com.jzwen.passwordhelper.pojo.User">
+        select userName , phoneNum  from user
+    </select>
+
+    <!--设置为默认密码‘123456’-->
+    <update id="updateDefPassword">
+        update user set password = '123456' where phoneNum = #{phoneNum}
+    </update>
+
+    <!--用户设置信息-->
+    <update id="alterInfo">
+        update user set password = #{password} , userName = #{userName} where phoneNum = #{phoneNum}
+    </update>
+
+</mapper>
